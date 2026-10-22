@@ -1,0 +1,481 @@
+{
+  "name": "offers_guide",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "46bb944e-5b31-4b73-83ad-3f52018e13fa",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "15faa4dd-7406-4cbc-ade7-b656dc46b7e1",
+              "name": "LinkedIn_search_URL",
+              "value": "https://www.linkedin.com/jobs/search?keywords=Stage%20Pfe%20En%20Data%20Et%20IA&location=France&geoId=105015875&f_TPR=r86400&activeFilter=f_TPR&position=1&pageNum=0",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "0642233b-20df-44c5-8966-daf9516ddcef",
+      "name": "Job_search_URL"
+    },
+    {
+      "parameters": {
+        "operation": "Run actor and get dataset",
+        "actorId": {
+          "__rl": true,
+          "value": "hKByXkMQaC5Qt9UMN",
+          "mode": "list",
+          "cachedResultName": "Linkedin Jobs Scraper (curious_coder/linkedin-jobs-scraper)",
+          "cachedResultUrl": "https://console.apify.com/actors/hKByXkMQaC5Qt9UMN/input"
+        },
+        "customBody": "={\n    \"autoConvertToAiSearch\": true,\n    \"limitPerSource\": 100,\n    \"scrapeCompany\": true,\n    \"splitByLocation\": false,\n    \"under10Applicants\": false,\n    \"urls\": [\n        \"{{ $json.LinkedIn_search_URL }}\"\n    ]\n} "
+      },
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "4f844aaa-8305-475f-a1a8-4c2d251f7805",
+      "name": "Scrapped_jobs_with_Apify",
+      "credentials": {
+        "apifyApi": {
+          "id": "qNSi6OUh7VgnkIS0",
+          "name": "Apify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        912,
+        0
+      ],
+      "id": "91952f00-b2a9-42d4-992c-7a5e0862b207",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f8823086-afb0-4368-bed9-ad0a0c8e618b",
+              "name": "CV",
+              "value": " \\documentclass[10pt,a4paper]{article}  \\usepackage[utf8]{inputenc} \\usepackage[T1]{fontenc} \\usepackage[left=1.25cm,right=1.25cm,top=0.85cm,bottom=0.85cm]{geometry} \\usepackage{xcolor} \\usepackage{titlesec} \\usepackage{enumitem} \\usepackage{hyperref} \\usepackage{tabularx}  \\definecolor{navy}{RGB}{27,58,92}  \\hypersetup{     colorlinks=true,     urlcolor=navy,     linkcolor=navy }  \\setlength{\\parindent}{0pt} \\setlength{\\parskip}{0pt}  %==================== SECTION STYLE ====================  \\titleformat{\\section}   {\\color{navy}\\large\\bfseries}   {}{0em}{}[\\titlerule]  \\titlespacing{\\section}{0pt}{6pt}{3pt}  %==================== LIST STYLE ====================  \\setlist[itemize]{     leftmargin=1.2em,     itemsep=1pt,     topsep=1pt,     parsep=0pt,     partopsep=0pt }  \\newcommand{\\cvitem}[2]{     \\textbf{#1} \\hfill #2 }  \\begin{document}  %==================== HEADER ====================  \\begin{center}     {\\LARGE \\textbf{\\color{navy} WIAME ERRAOUI}}\\\\[3pt]     \\textbf{AI \\& Data Engineering Student -- Data Analytics \\& Applied AI}\\\\[4pt]     werraoui1@gmail.com \\quad $\\vert$ \\quad +212 653 304 538 \\quad $\\vert$ \\quad     \\href{https://linkedin.com/}{LinkedIn} \\quad $\\vert$ \\quad     \\href{https://github.com/}{GitHub} \\quad $\\vert$ \\quad Morocco \\end{center}  %==================== PROFILE ====================  \\section*{Profile}  Final-year Engineering student in Computer Engineering and Artificial Intelligence at ENSA Safi, seeking a 6-month end-of-studies internship starting February 2027 in Data, Data Analytics, or Artificial Intelligence. Hands-on experience in data analysis, Machine Learning, and AI solution development through academic and industrial projects. Autonomous, curious, and comfortable working in collaborative environments.  %==================== SKILLS ====================  \\section*{Technical Skills}  \\begin{tabularx}{\\textwidth}{@{}l X@{}} \\textbf{Data Analytics \\& Stats} & Python (Pandas, NumPy), SQL, PL/SQL, Power BI, Statistical Analysis, Hypothesis Testing, Data Cleaning, EDA, Feature Engineering, Cross-Validation \\\\  \\textbf{Machine Learning \\& AI} & Predictive Modeling, Machine Learning, Deep Learning (ANN, CNN), NLP, SHAP, LangChain, RAG, Hugging Face Embeddings, Llama 3, Prompt Engineering \\\\  \\textbf{Data Engineering} & ETL Pipelines, Data Warehousing, PostgreSQL, MySQL, MongoDB, Data Modeling \\\\  \\textbf{Development \\& Tools} & FastAPI, Django, REST APIs, Git/GitHub, Docker, Linux, Jupyter, OCI, Agile/Scrum, Jira, Trello, Notion \\end{tabularx}  %==================== EDUCATION ====================  \\section*{Education}  \\cvitem{National School of Applied Sciences of Safi (ENSA Safi)} {2024--2027 (Expected)} \\\\[-1pt] Engineering Degree in Computer Engineering and Artificial Intelligence  \\vspace{2pt}  \\cvitem{National School of Applied Sciences of Safi (ENSA Safi)} {2022--2024} \\\\[-1pt] Integrated Preparatory Cycle -- Mathematics \\& Physics  \\vspace{2pt}  \\cvitem{Moulay Ismail High School} {2022} \\\\[-1pt] Baccalaureate in Physical Sciences -- Highest Honors  %==================== EXPERIENCE ====================  \\section*{Professional Experience}  \\cvitem{Data Analytics Intern (PFA) -- Smart Automation Technologies} {2025--2026 | 2 months, July--August}  \\begin{itemize}     \\item Designed an \\textbf{Intelligent Multi-Agent System for Customer Churn Prediction and Retention}, combining \\textbf{Machine Learning, Digital Twin, and Generative AI}.     \\item Developed a churn prediction model (\\textbf{ROC-AUC: 0.8404}, recall: \\textbf{78.88\\%}) and performed explainable risk-factor analysis using \\textbf{SHAP}.     \\item Developed a \\textbf{Streamlit cockpit} for customer diagnosis, \\textit{What-If} simulations, retention strategy evaluation, and risk- and ROI-based action recommendations. \\end{itemize}  \\cvitem{Summer Intern -- OCP Group} {2025}  \\begin{itemize}     \\item Developed an IT incident management platform using Django, FastAPI, and SQLite.     \\item Integrated an NLP chatbot to automate incident classification and ticket creation. \\end{itemize}  %==================== PROJECTS ====================  \\section*{Selected Projects}  \\textbf{Career Gap Analyzer} \\begin{itemize}     \\item Developing a platform to analyze skill gaps between candidate profiles and market requirements.     \\item Combining document parsing, NLP, semantic embeddings, and LLMs to generate personalized learning roadmaps. \\end{itemize}  \\textbf{Industrial Process Optimization -- LafargeHolcim} \\begin{itemize}     \\item Performed data cleaning, preprocessing, and feature engineering on industrial cement-grinding data.     \\item Developed an XGBoost model to anticipate mill overload events. \\end{itemize}  \\textbf{RAG-Based Question Answering System} \\begin{itemize}     \\item Designed a RAG system for question answering over PDF document collections.     \\item Integrated Hugging Face Embeddings, ChromaDB, and Llama 3 via Groq. \\end{itemize}  \\textbf{Data Warehousing \\& ETL Pipeline} \\begin{itemize}     \\item Designed a Data Warehouse architecture using \\textbf{Bronze / Silver / Gold} layers.     \\item Developed ETL pipelines for data ingestion, transformation, and preparation. \\end{itemize}  \\textbf{Pizza Sales Analytics -- SQL \\& Power BI} \\begin{itemize}     \\item Built a SQL pipeline to clean, transform, and analyze sales data.     \\item Created a Power BI dashboard to monitor business KPIs and identify sales trends. \\end{itemize}  %==================== LANGUAGES ====================  \\section*{Languages}  \\textbf{Arabic} (Native) \\quad \\textbf{French} (Fluent) \\quad \\textbf{English} (Fluent)  %==================== CERTIFICATIONS ====================  \\section*{Certifications \\& Achievements}  \\begin{itemize}     \\item Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate     \\item 1337 School C Piscine -- intensive algorithms and C programming program \\end{itemize}  \\end{document} ",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1232,
+        16
+      ],
+      "id": "1e625bbd-ea6f-464b-b132-bb2374ef6ca4",
+      "name": "Get_my_cv"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-20b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        -160
+      ],
+      "id": "4fe668fa-9534-47c4-b9de-f9b0bfc9f166",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "6LVXvcRQzMYQBBkn",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\"relevant\": true, \"score\": 8, \"reason\": \"Data analytics PFE in Saudi Arabia matching the candidate's skills\"}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1568,
+        160
+      ],
+      "id": "16134a44-e114-4811-b70f-df07fbaa2792",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Title: {{ $('Loop Over Items').item.json.title }}\nCompany: {{ $('Loop Over Items').item.json.companyName }}\nLocation: {{ $('Loop Over Items').item.json.location }}\nDescription: {{ String($('Loop Over Items').item.json.descriptionText || '').slice(0, 1200) }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You screen internship offers for one candidate. Your goal is to KEEP as many plausible offers as possible: only reject when an offer is clearly unusable. When in doubt, accept it with a lower score. Judge only from the text given.  CANDIDATE: - Final-year engineering student (Bac+5 level, currently enrolled) in Computer Engineering and Artificial Intelligence. - Wants a 6-month end-of-studies internship (stage de fin d'études / PFE) starting around February or March 2027. - Strengths: data analysis, BI/reporting (Power BI, SQL), machine learning, NLP, LLM/RAG, ETL/data engineering, Python, FastAPI, Django, Docker. - Languages: Arabic, French, English. - ACCEPTED LOCATION: France (any city or region).  WHAT COUNTS AS AN INTERNSHIP: - Titles or text containing intern, internship, stage, stagiaire, PFE, or end-of-studies project. Ignore the employment type field.  HARD REJECTS (score 0-3), only if clearly true: 1. Not an internship (CDI, CDD, freelance, or alternance/apprenticeship). 2. Location is not in France. 3. A language other than Arabic, French, or English is explicitly required. 4. Requires a PhD or more than 2 years of experience. Bac+5, M2, or \"école d'ingénieur\" students are fine. 5. The start date is explicitly before December 2026 or after June 2027, or the duration is explicitly under 3 months. 6. The role is clearly unrelated to data, analytics, or tech: legal, tax, audit, accounting, HR, design, pure sales, pure communication, with no analysis, reporting, or technical tasks mentioned.  ACCEPT everything else. If the description mentions any data analysis, reporting, dashboards, KPIs, Excel/SQL/Python, automation, IT systems, software, digital tools, or AI, the role counts as relevant.  SCORING: - 9-10: data/AI internship in France, skills match closely. - 7-8: data, analytics, BI, or software role with a partial match. - 5-6: business, finance, operations, or consulting role with a real analysis, reporting, or tech component. Worth a look. - 0-3: hard reject. \"relevant\" is true if the score is 5 or higher.  Give a one-sentence reason naming the deciding factor."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        1504,
+        16
+      ],
+      "id": "8b5e7eed-2c90-4e73-9f3a-e5f80616f81c",
+      "name": "Checks_Relevance",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=MASTER CV (LaTeX):\n{{ $('Get_my_cv').item.json.CV }}\nOFFER:\nTitle: {{ $('Scrapped_jobs_with_Apify').item.json.title }}\nCompany: {{ $('Scrapped_jobs_with_Apify').item.json.companyName }}\nLocation: {{ $('Scrapped_jobs_with_Apify').item.json.location }}\nSeniority: {{ $('Scrapped_jobs_with_Apify').item.json.seniorityLevel }}\nDescription: {{ String($json.descriptionText || '').slice(0, 2000) }}\n\n",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You are an expert CV and cover letter writer for a final-year AI & Data engineering student applying to internships.  TASK: Tailor the candidate's master LaTeX CV to one job offer, then write a cover letter.  CV RULES: - Return the COMPLETE .tex file, from \\documentclass to \\end{document}. - Do NOT change the preamble, packages, colors, or layout commands. - Keep the header (name, email, phone, links, location) and the Education, Languages, and Certifications sections exactly as they are. - Keep every \\href and \\url link exactly as written. - Only edit content: reorder the skills, reword the Profile and bullets to reflect the offer's keywords, and reorder or drop the least relevant project or bullet. - Never invent experience, skills, tools, metrics, or dates. Use only what is in the master CV. - Keep the same or shorter length: it must still fit on one page. - Keep the Profile's 6-month end-of-studies internship starting in February 2027. - Escape LaTeX special characters in any text you write: & % $ # _ must be written as \\& \\% \\$ \\# \\_. - Do not wrap the .tex in markdown code fences.  COVER LETTER RULES: - Three short paragraphs, about 180 words total: (1) why this company and role, (2) two or three relevant projects or skills from the CV with concrete results, (3) availability (6-month PFE from February 2027) and a polite close. - Write in the same language as the job description (English or French). - Plain text, no LaTeX. Sign as \"Wiame Erraoui\". - Do not claim anything not in the CV.  OUTPUT FORMAT, exactly, with no other text: ===CV=== (full .tex here) ===LETTER=== (cover letter here)"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        2192,
+        -144
+      ],
+      "id": "81bbbe8f-aebd-4ce4-95e3-3300fd52a91a",
+      "name": "Customise_CV",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": null
+    },
+    {
+      "parameters": {
+        "model": "allam-2-7b",
+        "options": {
+          "temperature": 0.3
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        2320,
+        -16
+      ],
+      "id": "1803d6fa-0485-4924-b52c-fc78d0f347d5",
+      "name": "Groq Chat Model1",
+      "credentials": {
+        "groqApi": {
+          "id": "6LVXvcRQzMYQBBkn",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cead733d-7390-4652-8b83-957442725b46",
+              "leftValue": "={{ $json.output.relevant }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1856,
+        16
+      ],
+      "id": "c711a806-7a70-428d-aafc-f200acc25e9c",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "maxItems": 25
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        624,
+        0
+      ],
+      "id": "850fac1e-0523-4f71-9732-6b7d9ec356bd",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const job = $('Loop Over Items').item.json;\nconst check = $('Checks_Relevance').item.json.output || {};\nconst raw = typeof $json.text === 'string' ? $json.text\n          : (typeof $json.output === 'string' ? $json.output : '');\nconst cv = (raw.split('===CV===')[1] || '').split('===LETTER===')[0]\n  .replace(/```(latex|tex)?/g, '').trim();\nconst letter = (raw.split('===LETTER===')[1] || '').trim();\n\nreturn { json: {\n  relevant: check.relevant ?? false,\n  score: check.score ?? 0,\n  reason: check.reason ?? '',\n  title: job.title,\n  company: job.companyName,\n  location: job.location,\n  postedAt: job.postedAt,\n  link: job.link,\n  applyUrl: job.applyUrl,\n  applicants: job.applicantsCount,\n  seniority: job.seniorityLevel,\n  description: String(job.descriptionText || '').slice(0, 5000),\n  tailored_cv_tex: cv,\n  cover_letter: letter\n}};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2656,
+        64
+      ],
+      "id": "9f0bdf0e-bd25-4f18-a40e-063a5e15b74e",
+      "name": "Buid Raw"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3120,
+        160
+      ],
+      "id": "2f5e4aab-f6b6-4186-bb1f-626514b896e3",
+      "name": "Wait",
+      "webhookId": "c6025611-b5d4-462e-a7db-8584529e05c5"
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {
+          "fileName": "internship_offers.xlsx"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        -96
+      ],
+      "id": "cfcdacf3-ce54-447b-956c-ccabcca8bef5",
+      "name": "Convert to File"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Job_search_URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Job_search_URL": {
+      "main": [
+        [
+          {
+            "node": "Scrapped_jobs_with_Apify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrapped_jobs_with_Apify": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get_my_cv",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get_my_cv": {
+      "main": [
+        [
+          {
+            "node": "Checks_Relevance",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Checks_Relevance",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Checks_Relevance",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Checks_Relevance": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Customise_CV",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Customise_CV",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Buid Raw",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customise_CV": {
+      "main": [
+        [
+          {
+            "node": "Buid Raw",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buid Raw": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "114976cf-f18f-4589-917f-07bce95dd79f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "77a1c0b1c9ef47320d26f7be1473f483e361a2fe3c56bf5ad3e78bbfa924ce8e"
+  },
+  "id": "ehNdTf0jGn2z79Mc",
+  "tags": []
+}
